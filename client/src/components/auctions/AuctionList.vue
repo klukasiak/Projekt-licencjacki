@@ -1,14 +1,23 @@
 <template>
-  <div id="container">
-    <h1>Auctions List</h1>
-    <ul>
-      <li v-for="(auction, index) in auctions" :key="index">
-        <a :href="'/auction/' + auction._id">{{ auction.title }}  {{ auction.price }} <div v-if="auction.buyNow">BuyNow</div></a>
-      </li>
-    </ul>
-    <button @click="prevPage" :disabled="pageNumber<=0">&lt;&lt;&lt;</button>
-    <button>{{ pageNumber + 1 }}</button>
-    <button @click="nextPage" :disabled="pageNumber >= totalNumber/5">&gt;&gt;&gt;</button>
+  <div class="text-center">
+    <div>
+      <b-row v-for="(auction, index) in auctions" :key="index" class="align-self-center text-center">
+        <b-card tag="article" style="width: 100%; margin: 10px;" class="align-self-center text-center">
+          <b-card-title>{{ auction.title }}</b-card-title>
+          <b-card-text>
+            <b>Price:</b> {{ auction.price }} <br/>
+            <b>Ends in:</b> {{ calcDate(auction.endDate) }}
+          </b-card-text>
+
+          <b-button :href="'/auction/' + auction._id" variant="primary">Details</b-button>
+        </b-card>
+      </b-row>
+    </div>
+    <b-button-group class="text-center">
+      <b-button @click="prevPage" :disabled="pageNumber<=0">&lt;&lt;</b-button>
+      <b-button>{{ pageNumber + 1 }}</b-button>
+      <b-button @click="nextPage" :disabled="pageNumber >= totalNumber/5">&gt;&gt;</b-button>
+    </b-button-group>
   </div>
 </template>
 
@@ -16,6 +25,7 @@
 import AuctionService from "../../services/AuctionService";
 import UserService from "../../services/UserService";
 import router from "../../router";
+import moment from "moment";
 
 export default {
   name: "auctions-list",
@@ -57,6 +67,9 @@ export default {
     prevPage() {
       this.pageNumber--;
       this.retrieveAuctions();
+    },
+    calcDate(date) {
+      return moment(new Date(date)).fromNow();
     }
   },
   mounted() {
@@ -65,7 +78,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss" scoped>
-@import "../../style/auctlist.scss";
-</style>
