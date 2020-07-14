@@ -1,17 +1,26 @@
 <template>
-  <div id="container">
-    <p>Sign in:</p>
-    <div id="form">
-      <label for="username">Username:</label>
-      <br />
-      <input type="text" name="username" id="username" v-model="input.username" />
-      <br />
-      <label for="password">Password:</label>
-      <br />
-      <input type="password" name="password" id="password" v-model="input.password" />
-      <br />
-      <button @click="login()">Log in</button>
-    </div>
+  <div>
+    <b-form class="align-self-center">
+      <b-form-group
+        id="input-group-1"
+        label="Usename:"
+        label-for="input-1"
+      >
+        <b-form-input
+          id="input-1"
+          v-model="input.username"
+          type="username"
+          required
+          placeholder="Your Username"
+        ></b-form-input>
+      </b-form-group>
+
+      <b-form-group id="input-group-2" label="Password:" label-for="input-2">
+        <b-form-input id="input-2" v-model="input.password" required placeholder="Your Password" type="password"></b-form-input>
+      </b-form-group>
+
+      <b-button variant="primary" @click="login()">Submit</b-button>
+    </b-form>
   </div>
 </template>
 
@@ -48,7 +57,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss" scoped>
-@import "../../style/login.scss";
-</style>

@@ -1,34 +1,32 @@
 <template>
-  <div id="container">
-    <p>Register:</p>
-    <br />
-    <div id="form">
-      <label>Username:</label>
-      <br />
-      <input type="text" name="username" v-model="input.username" />
-      <br />
-      <label>Password:</label>
-      <br />
-      <input type="password" name="password" v-model="input.password" />
-      <br />
-      <label>First name:</label>
-      <br />
-      <input type="text" name="firstName" v-model="input.firstName" />
-      <br />
-      <label>Last name:</label>
-      <br />
-      <input type="text" name="lastName" v-model="input.lastName" />
-      <br />
-      <label>City:</label>
-      <br />
-      <input type="text" name="lastName" v-model="input.city" />
-      <br />
-      <label>Street:</label>
-      <br />
-      <input type="text" name="lastName" v-model="input.street" />
-      <br />
-      <button @click="register()">Register</button>
-    </div>
+  <div>
+    <b-form class="align-self-center">
+      <b-form-group id="input-group-1" label="Usename:" label-for="input-1">
+        <b-form-input id="input-1" v-model="input.username" type="username" required placeholder="Username"></b-form-input>
+      </b-form-group>
+
+      <b-form-group id="input-group-2" label="Password:" label-for="input-2">
+        <b-form-input id="input-2" v-model="input.password" required placeholder="Password" type="password"></b-form-input>
+      </b-form-group>
+
+      <b-form-group id="input-group-3" label="First name:" label-for="input-3">
+        <b-form-input id="input-3" v-model="input.firstName" required placeholder="Name"></b-form-input>
+      </b-form-group>
+
+      <b-form-group id="input-group-4" label="Last name:" label-for="input-4">
+        <b-form-input id="input-4" v-model="input.lastName" required placeholder="Last name"></b-form-input>
+      </b-form-group>
+
+      <b-form-group id="input-group-5" label="City:" label-for="input-5">
+        <b-form-input id="input-5" v-model="input.city" placeholder="City"></b-form-input>
+      </b-form-group>
+
+      <b-form-group id="input-group-6" label="Street:" label-for="input-6">
+        <b-form-input id="input-6" v-model="input.street" placeholder="Street"></b-form-input>
+      </b-form-group>
+
+      <b-button variant="primary" @click="register">Submit</b-button>
+    </b-form>
   </div>
 </template>
 
@@ -75,7 +73,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss" scoped>
-@import "../../style/login.scss";
-</style>
