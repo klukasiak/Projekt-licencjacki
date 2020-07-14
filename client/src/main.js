@@ -3,6 +3,7 @@ import App from "./App.vue";
 import router from "./router";
 import VueSocketIOExt from "vue-socket.io-extended";
 import io from "socket.io-client";
+import "./plugins/bootstrap-vue";
  
 const socket = io(`https://${location.host}`, { secure: true });
 

@@ -3,30 +3,48 @@
     <div id="container">
       <div id="navigation-bar">
         <nav>
-          <h2 class="logo" v-if="isLoggedIn">Hello {{ user.username }}</h2>
-          <h2 class="logo" v-else>Hello Guest</h2>
-          <input type="checkbox" id="chk" />
-          <label for="chk" class="show-menu-btn">
-            <i>Menu</i>
-          </label>
-          <ul v-if="isLoggedIn" class="menu">
-            <a href="/">Auctions</a>
-            <a href="/chat">Chat</a>
-            <a href="/userpanel">History</a>
-            <a href="/auctionform">Add auction</a>
-            <a href="/auctionpanel">Current Auctions</a>
-            <a href @click="logout()">Logout</a>
-            <label for="chk" class="hide-menu-btn">
-              <i>X</i>
-            </label>
-          </ul>
-          <ul v-else class="menu">
-            <a href="/login">Login</a>
-            <a href="/register">Register</a>
-            <label for="chk" class="hide-menu-btn">
-              <i>X</i>
-            </label>
-          </ul>
+          <div>
+            <b-navbar toggleable="lg" type="dark" variant="dark">
+              <b-navbar-brand href="#">Auction App</b-navbar-brand>
+
+              <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+
+              <b-collapse id="nav-collapse" is-nav>
+                <b-navbar-nav v-if="isLoggedIn">
+                  <b-nav-item href="/">Auctions</b-nav-item>
+                  <b-nav-item href="/chat">Chat</b-nav-item>
+                  <b-nav-item href="/auctionform">Add Auction</b-nav-item>
+                  <b-nav-item href="/auctionpanel">Current Auctions</b-nav-item>
+                </b-navbar-nav>
+                <b-navbar-nav v-else>
+                  <b-nav-item href="/">Auctions</b-nav-item>
+                </b-navbar-nav>
+
+                <b-navbar-nav class="ml-auto">
+                  <b-nav-form>
+                    <b-form-input size="sm" class="mr-sm-2" placeholder="Search"></b-form-input>
+                    <b-button size="sm" class="my-2 my-sm-0" type="submit">Search</b-button>
+                  </b-nav-form>
+
+                  <b-nav-item-dropdown right v-if="isLoggedIn">
+                    <template v-slot:button-content>
+                      <em>{{ user.username }}</em>
+                    </template>
+                    <b-dropdown-item href="/userpanel">Profile</b-dropdown-item>
+                    <b-dropdown-item @click="logout()">Sign Out</b-dropdown-item>
+                  </b-nav-item-dropdown>
+
+                  <b-nav-item-dropdown right v-else>
+                    <template v-slot:button-content>
+                      <em>Guest</em>
+                    </template>
+                    <b-dropdown-item href="/login">Login</b-dropdown-item>
+                    <b-dropdown-item href="/register">Register</b-dropdown-item>
+                  </b-nav-item-dropdown>
+                </b-navbar-nav>
+              </b-collapse>
+            </b-navbar>
+          </div>
         </nav>
       </div>
       <div class="content">
@@ -76,7 +94,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss" scoped>
-@import "./style/navbar.scss";
-</style>
