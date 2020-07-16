@@ -1,45 +1,52 @@
 <template>
-  <div id="container">
-    <div>
-      <h3>Auction</h3>
-      <h4>Title: {{ auction.title }}</h4>
-      <p>Description: {{ auction.description }}</p>
-      Price: {{ auction.price }}
-      <br />
-      <div v-if="!auction.buyNow">
-        <div v-if="offers.length > 0">
-          Highest Offer: <b>{{ offers[offers.length - 1].offerValue }}</b>
+  <b-container fluid>
+    <b-row>
+      <b-col class="text-center">
+        <h4>Title: {{ auction.title }}</h4>
+        <p><b>Description:</b> {{ auction.description }}</p>
+      </b-col>
+      <b-col>
+        <b-card class="text-center">
+          <b-button
+          v-if="user._id == auction.owner && !isStarted && new Date(this.auction.endDate).getTime() > new Date().getTime()"
+          @click="routeTo()"
+        >Edit</b-button>
+          <b>Start Date:</b> {{ dateString(auction.startDate) }}
           <br />
+          <b>End Date:</b> {{ dateString(auction.endDate) }}
+          <br />
+          <div v-if="dateToStart"><b>{{ dateToStart }}</b></div>
+          <br />
+          <b>Owner:</b> {{ owner.username }}
+          <br />
+          <b>Price:</b> {{ auction.price }}
+          <br />
+        <div v-if="!auction.buyNow">
+          <div v-if="offers.length > 0">
+            Highest Offer: <b>{{ offers[offers.length - 1].offerValue }}</b>
+            <br />
+          </div>
         </div>
-      </div>
-      <br />
-      Start Date: {{ dateString(auction.startDate) }}
-      <br />
-      End Date: {{ dateString(auction.endDate) }}
-      <br />
-      Owner: {{ owner.username }}
-      <br />
-      <div v-if="!empty">
-        <div v-if="isStarted && this.auction.owner != this.user._id">
-          <input type="number" name="value" id="value" v-if="!auction.buyNow" /><br />
-          <button @click="giveOffer()">Offer</button>
-          <p v-if="message">{{ message }}</p>
+        <div v-if="!empty">
+          <div v-if="isStarted && this.auction.owner != this.user._id">
+            <b-form-input :type="number" name="value" id="value" v-if="!auction.buyNow" /><br />
+            <b-button variant="outline-primary" @click="giveOffer()">Offer</b-button>
+            <p v-if="message">{{ message }}</p>
+          </div>
         </div>
-      </div>
-      <div v-else>Zaloguj sie aby brac udzial w licytacji</div>
-      <div v-if="dateToStart"><b>{{ dateToStart }}</b></div>
-      <button
-        v-if="user._id == auction.owner && !isStarted && new Date(this.auction.endDate).getTime() > new Date().getTime()"
-        @click="routeTo()"
-      >Edit</button>
+        <div v-else>Zaloguj sie aby brac udzial w licytacji</div>
+        </b-card>
+      </b-col>
+    </b-row>
+    <b-row style="position:relative; height:150px; overflow-y:scroll; margin:20px; padding:20px;">
+      <div>
+        <p
+          v-for="(offer, index) in offers"
+          :key="index"
+        >{{offer.offerValue}} {{offer.username}} {{ dateString(offer.date) }}</p>
     </div>
-    <div id="offers">
-      <p
-        v-for="(offer, index) in offers"
-        :key="index"
-      >{{offer.offerValue}} {{offer.username}} {{ dateString(offer.date) }}</p>
-    </div>
-  </div>
+    </b-row>
+  </b-container>
 </template>
 
 <script>
@@ -181,7 +188,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss" scoped>
-@import "../../style/auctiondet.scss";
-</style>

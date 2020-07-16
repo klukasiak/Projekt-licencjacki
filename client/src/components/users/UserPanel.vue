@@ -1,29 +1,32 @@
 <template>
-  <div id="container">
-    <div id="mydata">
-      <p>My data:</p>
-      <p>Username: {{ user.username }}</p>
-      <p>First Name: {{ user.firstName }}</p>
-      <p>Last Name: {{ user.lastName }}</p>
-      <p>City: {{ user.city }}</p>
-      <p>Street: {{ user.street }}</p>
-    </div>
-    <div id="history">
-      <p>History:</p>
-      <p>My auctions:</p>
-      <div class="auctlist">
-        <p v-for="(auction, index) in myAuctionsHistory" :key="index">
-          <a :href="'/auction/' + auction._id">{{auction.title}}</a>
-        </p>
-      </div>
-      <p>Auctions won:</p>
-      <div class="auctlist">
-        <p v-for="(auction, index) in wonAuctionsHistory" :key="index">
-          <a :href="'/auction/' + auction._id">{{auction.title}}</a>
-        </p>
-      </div>
-    </div>
-  </div>
+  <b-container fluid>
+    <b-row>
+      <b-col>
+        <b-card class="text-center" title="My data">
+          Username: {{ user.username }} <br />
+          First Name: {{ user.firstName }} <br />
+          Last Name: {{ user.lastName }} <br />
+          City: {{ user.city }} <br />
+          Street: {{ user.street }} <br />
+        </b-card>
+      </b-col>
+      <b-col class="text-center">
+        <h4>History:</h4>
+        <em>My auctions:</em>
+        <div style="position:relative; height:150px; overflow-y:scroll; margin:20px; padding:20px;">
+          <p v-for="(auction, index) in myAuctionsHistory" :key="index">
+            <a :href="'/auction/' + auction._id">{{auction.title}}</a>
+          </p>
+        </div>
+        <em>Auctions won:</em>
+        <div style="position:relative; height:150px; overflow-y:scroll; margin:20px; padding:20px;">
+          <p v-for="(auction, index) in wonAuctionsHistory" :key="index">
+            <a :href="'/auction/' + auction._id">{{auction.title}}</a>
+          </p>
+        </div>
+      </b-col>
+    </b-row>
+  </b-container>
 </template>
 
 <script>
@@ -106,7 +109,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss" scoped>
-@import "../../style/userpanel.scss";
-</style>

@@ -1,32 +1,30 @@
 <template>
-  <div id="container">
-    <p>Dodaj aukcje:</p>
-    <div id="form">
-      <label>Title:</label>
-      <br />
-      <input type="text" name="title" v-model="auction.title" />
-      <br />
-      <label>Description:</label>
-      <br />
-      <textarea type="text" name="description" v-model="auction.description"></textarea>
-      <br />
-      <label>Price:</label>
-      <br />
-      <input type="number" name="price" v-model="auction.price" />
-      <br />
-      <label>Start Date:</label>
-      <br />
-      <input type="datetime-local" name="startDate" v-model="auction.startDate" />
-      <br />
-      <label>End Date:</label>
-      <br />
-      <input type="datetime-local" name="endDate" v-model="auction.endDate" />
-      <br />
-      <label>Buy now:</label>
-      <input type="checkbox" name="buyNow" v-model="auction.buyNow" />
-      <br />
-      <button @click="addAuction()">Submit</button>
-    </div>
+  <div>
+    <b-form-group id="input-group-1" label="Title:" label-for="input-1">
+      <b-form-input id="input-1" v-model="auction.title" required placeholder="Title"></b-form-input>
+    </b-form-group>
+
+    <b-form-group id="input-group-2" label="Description:" label-for="input-2">
+      <b-form-input id="input-2" v-model="auction.description" required placeholder="Description"></b-form-input>
+    </b-form-group>
+
+    <b-form-group id="input-group-3" label="Price:" label-for="input-3">
+      <b-form-input id="input-3" v-model="auction.price" required type="number"></b-form-input>
+    </b-form-group>
+
+    <b-form-group id="input-group-4" label="Start date:" label-for="input-4">
+      <input type="datetime-local" name="startDate" v-model="auction.startDate" id="input-4"/>
+    </b-form-group>
+
+    <b-form-group id="input-group-5" label="End date:" label-for="input-5">
+      <input type="datetime-local" name="endDate" v-model="auction.endDate" id="input-5"/>
+    </b-form-group>
+
+    <b-form-group id="input-group-6" label="Buy now:" label-for="input-6">
+      <b-form-checkbox id="input-6" v-model="auction.buyNow">Buy now</b-form-checkbox>
+    </b-form-group>
+
+    <b-button variant="primary" @click="addAuction()">Submit</b-button>
   </div>
 </template>
 

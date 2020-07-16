@@ -25,9 +25,11 @@ const options = {
   cert: cert
 };
 
+const dist = require("path").resolve(__dirname, "../dist/");
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(__dirname + "/dist/"));
+app.use(express.static(dist));
 
 //db connection
 mongoose.connect(process.env.DATABASE, opts).then(() => {
@@ -48,7 +50,7 @@ mongoose.connect(process.env.DATABASE, opts).then(() => {
   app.use(messageRoutes);
   app.use(auctionOfferRoutes);
   app.get("*", (req, res) => {
-    res.sendFile(__dirname + "/dist/index.html");
+    res.sendFile(dist + "/index.html");
   });
   app.use((_req, res) => {
     res.sendStatus(404);

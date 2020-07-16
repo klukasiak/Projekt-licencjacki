@@ -1,32 +1,32 @@
 <template>
-  <div id="container">
-    <div id="contacts">
-      <ul>
+  <b-container fluid>
+    <b-row>
+      <b-col class="h-50">
+        <ul>
         <li v-for="(u, index) in users" :key="index">
           <a @click="messagesWith(u)">{{ u }}</a>
         </li>
       </ul>New user:
-      <input name="nickname" id="nickname" />
-      <button @click="newUser()">Add</button>
-    </div>
-    <div id="chat">
-      <ul>
-        <li v-for="(message, index) in actualmessages" :key="index">
-          <div>{{ message.sender }}: {{ message.text }}</div>
-          <p id="date">{{ dateString(message.date) }}</p>
-        </li>
-      </ul>
-      <input name="newMessage" id="newMessage" />
-      <button @click="sendMessage()">Send</button>
-    </div>
-  </div>
+      <b-form-input name="nickname" id="nickname" />
+      <b-button @click="newUser()">Add</b-button>
+      </b-col>
+      <b-col class="h-50">
+        <ul>
+          <li v-for="(message, index) in actualmessages" :key="index">
+            <div>{{ message.sender }}: {{ message.text }}</div>
+            <p id="date">{{ dateString(message.date) }}</p>
+          </li>
+        </ul>
+        <b-form-input name="newMessage" id="newMessage" />
+        <b-button @click="sendMessage()">Send</b-button>
+      </b-col>
+    </b-row>
+  </b-container>
 </template>
 
 <script>
 import MessageService from "../../services/MessageService";
 import UserService from "../../services/UserService";
-// import socketio from "socket.io-client";
-//import router from "../../router";
 
 export default {
   name: "chat",
@@ -135,7 +135,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss" scoped>
-@import "../../style/chat.scss";
-</style>

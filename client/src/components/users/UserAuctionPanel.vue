@@ -1,14 +1,21 @@
 <template>
-  <div id="container">
-    <div v-for="(auction, index) in auctions" :key="index">
-      Title: {{ auction.title }} TopOffer: {{ topOffers[index].offerValue }} by {{ topOffers[index].username }}
-      <input
-        type="number"
-        :id="'input' + index"
-      />
-      <button @click="giveOffer(index)">Offer</button>
-    </div>
-  </div>
+  <b-container fluid>
+    <b-row align-v="center">
+      <b-col v-for="(auction, index) in auctions" :key="index">
+        <b-card class="mb-2">
+          <b-card-text>
+            <b>Title:</b> {{ auction.title }} <br />
+            <b>TopOffer:</b> {{ topOffers[index].offerValue }} by {{ topOffers[index].username }}
+          </b-card-text>
+          <b-form-input
+            type="number"
+            :id="'input' + index"
+          />
+          <b-button variant="success" @click="giveOffer(index)">Offer</b-button>
+        </b-card>
+      </b-col>
+    </b-row>
+  </b-container>
 </template>
 
 <script>
