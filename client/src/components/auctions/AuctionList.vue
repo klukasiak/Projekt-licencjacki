@@ -43,7 +43,6 @@ export default {
         .then(response => {
           this.auctions = response.data.auctions;
           this.totalNumber = response.data.total;
-          console.log(response.data);
         })
         .catch(e => {
           console.log(e);
@@ -53,7 +52,6 @@ export default {
       UserService.get()
         .then(response => {
           this.user = response.data.user;
-          console.log(response.data);
         })
         .catch(err => console.log(err));
     },

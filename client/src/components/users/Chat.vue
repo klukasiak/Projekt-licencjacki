@@ -2,23 +2,23 @@
   <b-container fluid>
     <b-row>
       <b-col class="h-50">
-        <ul>
-        <li v-for="(u, index) in users" :key="index">
-          <a @click="messagesWith(u)">{{ u }}</a>
-        </li>
+        <ul style="position:relative; height:250px; overflow-y:scroll; margin:20px; padding:20px;">
+          <li v-for="(u, index) in users" :key="index">
+            <a @click="messagesWith(u)">{{ u }}</a>
+          </li>
       </ul>New user:
       <b-form-input name="nickname" id="nickname" />
-      <b-button @click="newUser()">Add</b-button>
+      <b-button style="margin-top: 10px;" @click="newUser()">Add</b-button>
       </b-col>
       <b-col class="h-50">
-        <ul>
+        <ul style="position:relative; height:250px; overflow-y:scroll; margin:20px; padding:20px;">
           <li v-for="(message, index) in actualmessages" :key="index">
             <div>{{ message.sender }}: {{ message.text }}</div>
-            <p id="date">{{ dateString(message.date) }}</p>
+            <p style="font-size: 9px;">{{ dateString(message.date) }}</p>
           </li>
-        </ul>
+        </ul>Message:
         <b-form-input name="newMessage" id="newMessage" />
-        <b-button @click="sendMessage()">Send</b-button>
+        <b-button style="margin-top: 10px;" @click="sendMessage()">Send</b-button>
       </b-col>
     </b-row>
   </b-container>
@@ -42,8 +42,6 @@ export default {
   },
   sockets: {
     msg: function(data) {
-      console.log(data);
-      console.log("sended");
       this.messages.push(data);
       this.messages = this.messages.reduce(
         (unique, item) => (unique.includes(item) ? unique : [...unique, item]),
@@ -62,7 +60,6 @@ export default {
           this.user = response.data.user;
           MessageService.getMy(response.data.user.username)
             .then(response => {
-              console.log(response);
               this.messages = response.data;
               let userSenders = this.messages.map(m => m.sender);
               let userRecipients = this.messages.map(m => m.recipient);
@@ -112,10 +109,7 @@ export default {
   mounted() {
     this.retreiveUser();
     this.socket = this.$socket.client;
-    console.log(this.socket);
     this.socket.on("msg", data => {
-      console.log(data);
-      console.log("sended");
       this.messages.push(data);
       this.messages = this.messages.reduce(
         (unique, item) => (unique.includes(item) ? unique : [...unique, item]),

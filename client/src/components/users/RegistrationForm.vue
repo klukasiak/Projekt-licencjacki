@@ -57,9 +57,7 @@ export default {
         this.input.lastName != ""
       ) {
         UserService.register(this.input)
-          .then(response => {
-            console.log("Registred");
-            console.log(response);
+          .then(() => {
             router.push("/login");
           })
           .catch(err => {

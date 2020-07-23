@@ -15,13 +15,15 @@
         </b-card>
       </b-col>
     </b-row>
+    <b-alert v-model="showError" variant="danger" dismissible>
+        Offer is too low!
+    </b-alert>
   </b-container>
 </template>
 
 <script>
 import AuctionService from "../../services/AuctionService";
 import UserService from "../../services/UserService";
-// import router from "../../router";
 
 export default {
   name: "user-auction-panel",
@@ -31,18 +33,17 @@ export default {
       user: {},
       offers: [],
       topOffers: [],
-      socket: null
+      socket: null,
+      showError: false
     };
   },
   sockets: {
     refOffer: function(data) {
-      console.log("REFF");
-      console.log(data);
-      console.log(this.topOffers);
       this.auctions.forEach(item => {
         if (item._id == data.idOffer) {
           let index = this.auctions.indexOf(item);
-          this.topOffers[index] = data;
+          this.topOffers[index].offerValue = data.offerValue;
+          this.topOffers[index].username = data.username;
         }
       });
     }
@@ -61,10 +62,8 @@ export default {
               []
             );
             this.offers.forEach(offer => {
-              console.log(offer);
               AuctionService.getNotBuyNowAndId(offer)
                 .then(response => {
-                  console.log(response.data[0]);
                   if (response.data[0] !== undefined) {
                     this.auctions.push(response.data[0]);
                     this.socket.emit("joinAuctions", {
@@ -98,22 +97,20 @@ export default {
       if (parseInt(value) > parseInt(this.topOffers[index].offerValue)) {
         this.socket.emit("newOffer", offer);
       } else {
-        this.socket.emit("newOffer", offer);
+        this.showError = true;
       }
     }
   },
   mounted() {
+    this.showError = false;
     this.retriveUser();
     this.socket = this.$socket.client;
-    console.log(this.socket);
     this.socket.on("refOffer", data => {
-      console.log("REFFF");
       this.auctions.forEach(item => {
         if (item._id == data.idOffer) {
           let index = this.auctions.indexOf(item);
-          console.log("Index f");
-          console.log(index);
-          this.topOffers[index] = data;
+          this.topOffers[index].offerValue = data.offerValue;
+          this.topOffers[index].username = data.username;
         }
       });
     });

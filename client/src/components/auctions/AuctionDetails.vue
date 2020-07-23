@@ -79,7 +79,6 @@ export default {
           UserService.getById(this.auction.owner)
             .then(response => {
               this.owner = response.data;
-              console.log(response.data);
               this.socket.emit("joinAuction", {
                 idAuction: this.auction._id
               });
@@ -92,7 +91,6 @@ export default {
       UserService.get()
         .then(response => {
           this.user = response.data.user;
-          console.log(this.user);
           this.empty = false;
         })
         .catch(err => console.log(err));
@@ -101,14 +99,12 @@ export default {
       AuctionService.getOffersByAuctionId(this.auction._id).then(response => {
         this.offers = response.data;
         this.offers.sort((a, b) => (a.offerValue > b.offerValue ? 1 : -1));
-        console.log(this.offers);
       });
     },
     giveOffer() {
       if (this.isStarted) {
         let value = document.getElementById("value").value;
         if (this.offers !== undefined && this.offers.length != 0) {
-          console.log("offers");
           if (
             parseInt(this.offers[0].offerValue) > parseInt(value) &&
             parseInt(this.auction.price) > parseInt(value)
@@ -123,7 +119,6 @@ export default {
             this.socket.emit("newOffer", offer);
           }
         } else {
-          console.log("nooffers");
           let offer = {
             idAuction: this.auction._id,
             username: this.user.username,
@@ -163,7 +158,6 @@ export default {
   mounted() {
     this.getAuction(this.$route.params.id);
     this.socket = this.$socket.client;
-    console.log(this.socket);
     this.socket.on("refOffer", data => {
       this.offers.push(data);
     });

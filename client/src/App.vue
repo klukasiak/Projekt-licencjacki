@@ -64,17 +64,14 @@ export default {
           this.user = response.data.user;
           this.isLoggedIn = true;
         })
-        .catch(err => {
-          console.log(err);
+        .catch(() => {
           this.isLoggedIn = false;
         });
     },
     logout() {
       UserService.logout()
-        .then(response => {
-          console.log(response);
+        .then(() => {
           this.isLoggedIn = false;
-          console.log("Logged out");
           router.push("/");
         })
         .catch(err => console.log(err));

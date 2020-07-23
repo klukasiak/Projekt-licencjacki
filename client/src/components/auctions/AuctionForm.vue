@@ -13,7 +13,8 @@
     </b-form-group>
 
     <b-form-group id="input-group-4" label="Start date:" label-for="input-4">
-      <input type="datetime-local" name="startDate" v-model="auction.startDate" id="input-4"/>
+      <input type="datetime-local" name="startDate" v-model="auction.startDate" id="input-4" :state="dateAlert" aria-describedby="date-error"/>
+      <b-alert v-model="dateAlert" variant="danger">Start date is before than now!</b-alert>
     </b-form-group>
 
     <b-form-group id="input-group-5" label="End date:" label-for="input-5">
@@ -32,13 +33,13 @@
 import AuctionService from "../../services/AuctionService";
 import UserService from "../../services/UserService";
 import router from "../../router";
-import moment from "moment";
 
 export default {
   name: "auction-form",
   data() {
     return {
-      auction: {}
+      auction: {},
+      dateAlert: false
     };
   },
   methods: {
@@ -53,11 +54,6 @@ export default {
       AuctionService.get(id)
         .then(response => {
           this.auction = response.data;
-          let data = moment(new Date(this.auction.startDate)).format(
-            "yyyy-MM-DDTHH:mm:ss"
-          );
-          console.log(data);
-          console.log(new Date(data).toISOString());
         })
         .catch(err => console.log(err));
     },
@@ -65,25 +61,24 @@ export default {
       if (this.auction._id) {
         AuctionService.updateAuction(this.auction._id, this.auction)
           .then(() => {
-            console.log("Edited");
             router.push("/auction/" + this.auction._id);
           })
           .catch(err => console.log(err));
       } else {
-        console.log("w else");
         AuctionService.add(this.auction)
           .then(response => {
-            console.log("Added");
             router.push("/auction/" + response.data._id);
           })
-          .catch(err => console.log(err));
+          .catch(err => {
+            console.log(err);
+            this.dateAlert = true;
+          });
       }
     }
   },
   mounted() {
     console.log(this.$route.params.id);
     if (this.$route.params.id) {
-      console.log("TO EDIT .......");
       this.auction = this.getAuction(this.$route.params.id);
       console.log(this.auction);
     } else {

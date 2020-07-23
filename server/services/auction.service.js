@@ -1,10 +1,13 @@
 const Auction = require("../models/Auction.model");
+const moment = require("moment");
 
 const saveAuction = (auction, res) => {
   auction.save((err, doc) => {
     if (err) {
       res.status(404).json(err);
-    } else {
+    } else if(moment(auction.startDate).isBefore(new Date())) {
+      res.status(400).json({err: "Start date is before than now"});
+    } else{
       res.json(doc);
     }
   });

@@ -32,7 +32,6 @@
 <script>
 import AuctionService from "../../services/AuctionService";
 import UserService from "../../services/UserService";
-//import router from "../../router";
 
 export default {
   name: "user-panel",
@@ -78,7 +77,6 @@ export default {
                 );
                 if (s[0].idUser == this.user._id) {
                   this.wonAuctionsHistoryIds.push(s[0].idOffer);
-                  console.log(this.wonAuctionsHistoryIds);
                 }
               })
               .catch(err => console.log(err));
